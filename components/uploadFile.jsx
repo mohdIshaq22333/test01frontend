@@ -25,18 +25,25 @@ function UploadFile() {
     })
       .then((response) => {
         setStatus({ success: "File successfully uploaded" });
-        fetch("http://localhost:8000")
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.names?.length > 0) {
-              setFileNames(data.names);
-            }
-          })
-          .catch((err) => {
-          });
+        return response.json();
+        // fetch("http://localhost:8000")
+        //   .then((response) => {
+        //     return response.json();
+        //   })
+        //   .then((data) => {
+        //     if (data.names?.length > 0) {
+        //       setFileNames(data.names);
+        //     }
+        //   })
+        //   .catch((err) => {
+        //   });
       })
+      .then((data)=>{
+      setFileNames((val)=>{
+        let temp=[...val];
+        temp.push(data[0].filename);
+        return temp;
+      })})
       .catch((err) => {
         setStatus({ error: err });
       });
